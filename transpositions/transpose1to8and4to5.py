@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-class cipher:
+class Cipher:
 
     def __init__(self, phrase):
         self.phrase = phrase
@@ -28,13 +28,14 @@ class cipher:
             self.length = len(self.phrase)
 
     def splitUp(self):
-        splitList = list(self.phrase)
-        tempWord = ""
-        while len(splitList) > 0:
-            for x in range(8):
-                tempWord += splitList.pop(0)
+        position = 0
+        while position < len(self.phrase):
+            tempWord = self.phrase[position]
+            position += 1
+            while (position % 8 != 0):
+                tempWord += self.phrase[position]
+                position += 1
             self.bracketedWords.append(tempWord)
-            tempWord = ""
 
     def rearrange(self):
         cipherString = ""
@@ -42,35 +43,36 @@ class cipher:
             cipherString += self.bracketedWords[x][7]+self.bracketedWords[x][1:3]+self.bracketedWords[x][4]+self.bracketedWords[x][3]+self.bracketedWords[x][5:7]+self.bracketedWords[x][0]
         return cipherString
 
-
-while True:
+def main():
     while True:
-        chooseMethod = input("Encode or Decode? (E/d) ")
-        if (chooseMethod.upper() == "E") or (chooseMethod.upper() == "D"):
-            break
-        else:
-            print("Please choose a valid method! Try Again.")
-    if chooseMethod.upper() == "E":
-        phrase = input("\nDecrypted Phrase: ")
-        try:
-            int(phrase)
-        except ValueError:
-            runCipher = cipher(phrase)
-            runCipher.validate()
-            runCipher.splitUp()
-            print("\nDecrypted Phrase: {}".format(runCipher.printPhrase()))
-            print("Encrypted Phrase: {}".format(runCipher.rearrange()))
-    elif chooseMethod.upper() == "D":
-        phrase = input("Encrypted Phrase: ")
-        try:
-            int(phrase)
-        except ValueError:
-            runCipher = cipher(phrase)
-            runCipher.splitUp()
-            print("\nEncrypted Phrase: {}".format(runCipher.printPhrase()))
-            print("Decrypted Phrase: {}".format(runCipher.rearrange()))
-    break
-    print("Try again.")
+        while True:
+            chooseMethod = input("Encode or Decode? (E/d) ")
+            if (chooseMethod.upper() == "E") or (chooseMethod.upper() == "D"):
+                break
+            else:
+                print("Please choose a valid method! Try Again.")
+        if chooseMethod.upper() == "E":
+            phrase = input("\nDecrypted Phrase: ")
+            try:
+                int(phrase)
+            except ValueError:
+                runCipher = Cipher(phrase)
+                runCipher.validate()
+                runCipher.splitUp()
+                print("\nDecrypted Phrase: {}".format(runCipher.printPhrase()))
+                print("Encrypted Phrase: {}".format(runCipher.rearrange()))
+        elif chooseMethod.upper() == "D":
+            phrase = input("Encrypted Phrase: ")
+            try:
+                int(phrase)
+            except ValueError:
+                runCipher = Cipher(phrase)
+                runCipher.splitUp()
+                print("\nEncrypted Phrase: {}".format(runCipher.printPhrase()))
+                print("Decrypted Phrase: {}".format(runCipher.rearrange()))
+        break
 
 
+if __name__ == "__main__":
+    main()
 
