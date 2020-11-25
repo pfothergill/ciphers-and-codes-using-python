@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 
 import os
 import sys
@@ -97,8 +96,10 @@ def automateDecrypt():
         print(decodeRight.shiftRight()+"\n")
         time.sleep(0.3)
 
+
 def larissaOnly():
-    phrase = input("Phrase to decrypt: ")
+    printLetters("\nPhrase to decrypt: ")
+    phrase = input("")
     print('\n')
     for x in range(89):
         decodeRight = CeasarShift(phrase, x)
@@ -110,35 +111,60 @@ def larissaOnly():
             decodedPhrase = decodeRight.shiftRight() + '\n'
     clear()
     time.sleep(3)
-    youWon = "You figured it out!!!"
-    for i in youWon:
-        sys.stdout.write(i)
-        sys.stdout.flush()
-        time.sleep(0.1)
+    printLetters("You figured it out!!!")
     time.sleep(3)
     clear()
     time.sleep(2)
-    for letter in decodedPhrase:
-        sys.stdout.write(letter)
-        sys.stdout.flush()
-        time.sleep(0.15)
+    printOutMessage(decodedPhrase)
     time.sleep(5)
 
-    # for x in range(len(decodedPhrase)):
-    #     clear()
-    #     # print(decodedPhrase[:x] + untruePhrase[x:len(untruePhrase)])
-    #     random_str = ""
-    #     for y in range(len(decodedPhrase)-x):
-    #         random_str += decodeRight.getRandomLetter()
-    #     print(decodedPhrase[:x] + random_str)
-    #     # if decodedPhrase[x] == " ":
-    #     #     clear()
-    #     #     decryptedText = decodedPhrase[:x] + decodedPhrase[x] + untruePhrase[x+1:len(untruePhrase)]
-    #     #     print(decryptedText)
-    #     time.sleep(0.2)
-    # clear()
-    # print(decodedPhrase + '\n')
-    # time.sleep(5)
+
+def printOutMessage(myString):
+    myStringList = myString.split()
+    letterSpeed = 0.06
+    punctionSpeed = 0.17
+    commaSpeed = 0.1
+    enterSpeed = 0.75
+    emoticonSpeed = 0.3
+    for i in myStringList:
+        if i.isupper() and len(i) > 1:
+            printLetters(i + " ", letterSpeed + 0.5)
+        elif i == ":)":
+                for x in i:
+                    printLetters(x, letterSpeed)
+                    time.sleep(emoticonSpeed)
+        elif i[len(i)-3:len(i)] == "...":
+            letterSpeed = 0.1
+            punctionSpeed = 0.22
+            commaSpeed = 0.13
+            enterSpeed = 1
+            emoticonSpeed = 0.8
+            for x in i:
+                if x == ".":
+                    printLetters(x, letterSpeed)
+                    time.sleep(1)
+                else:
+                    printLetters(x, letterSpeed)
+            
+            printLetters(" ", 0.06)
+        else:
+            printLetters(i + " ", letterSpeed)
+            if i[len(i)-1] == "!" or i[len(i)-1] == ".":
+                time.sleep(punctionSpeed)
+            elif i[len(i)-1] == ",":
+                time.sleep(commaSpeed)
+        if i[len(i)-1] == ":":
+            printLetters('\n', enterSpeed)
+            printLetters('\n', enterSpeed)
+    print("\n")
+    printLetters("\n\nPress ENTER to exit. There might be a delay but it'll exit!")
+    input("")
+
+def printLetters(inputString, sleep_time=0.03):
+    for letter in inputString:
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(sleep_time)
 
 
 def clear(): 
@@ -146,34 +172,73 @@ def clear():
 
 
 if __name__ == "__main__":
-    automate = input("Automate a decode process? (Y/n) ")
+    printLetters("\nAutomate a decode process? (Y/n) ")
+    automate = input("")
     if automate.upper() == "Y":
-        larissa = input("For Larissa ONLY! Are you Larissa? (Y/n) ")
+        printLetters("\nFor Larissa ONLY! Are you Larissa? (Y/n) ")
+        larissa = input("")
         if larissa.upper() == "Y":
             counter = 0
             while True and counter < 5:
-                password = input("\nEnter a password: ")
+                printLetters("\nEnter a password: ", 0.01)
+                password = input("")
                 try:
                     int(password)
-                    print("\nThis password does not contain any numbers!")
-                    hint = input("\nWould you like a hint? (Y/n) ")
+                    printLetters("\nThis password does not contain any numbers!\n")
+                    printLetters("\nWould you like a hint? (Y/n) ")
+                    hint = input("")
                     if hint.upper() == "Y":
-                        print("\nI tell you that you are ___ all the time...")
+                        printLetters("\nI tell you that you are ___ all the time...\n")
                 except ValueError:
                     if password.upper() == "BAD":
-                        larissaOnly()
+                        while True:
+                            printLetters("\nWhat is the 3 letter month & 2 digit day of my birthday? (Example: Jan 01) Do not include year: ", 0.02)
+                            birthStuff = input("")
+                            try:
+                                birthMonth, birthDay = birthStuff.split()
+                                if birthMonth.upper() == "AUG" and birthDay == "15":
+                                    while True:
+                                        printLetters("\nWhat is my favorite programming language? ")
+                                        language = input("")
+                                        if language.upper() == "PYTHON":
+                                            while True:
+                                                printLetters("\nWhat is my favorite number? ")
+                                                favNumber = input("")
+                                                try:
+                                                    int(favNumber)
+                                                    if int(favNumber) == 9:
+                                                        larissaOnly()
+                                                        break
+                                                    else:
+                                                        printLetters("\nIncorrect. I don't think I've ever told you this but what better way to learn? :) Would you like a hint? (Y/n) ")
+                                                        hint2 = input("")
+                                                        if hint2.upper() == "Y":
+                                                            printLetters("\nThe way you pronounce this number in English has a meaning in the German language. Good luck. You're almost there!\n")
+                                                        else:
+                                                            printLetters("\nAlrighty then...\n")
+                                                except ValueError:
+                                                    printLetters("\nIt's a number not a word. Duh.\n")
+                                            break
+                                        else:
+                                            printLetters("\nReally...This one should be easy...\n")
+                                    break
+                                else:
+                                    printLetters("\nIncorrect. Think harder and try again!\n")
+                            except ValueError:
+                                printLetters("\nThis should be a month (ex: Jan) followed by a space and then a 2 digit day (ex: 01). After you type both of these, and only after, press enter! (ex: Jan 01 --> press enter)\n", 0.02)
                         break
                     elif counter < 4:
-                        print("\nThe password is incorrect. Please try again!")
-                        time.sleep(0.8)
-                        hint = input("\nWould you like a hint? (Y/n) ")
+                        printLetters("\nThe password is incorrect. Please try again!\n")
+                        time.sleep(0.3)
+                        printLetters("\nWould you like a hint? (Y/n) ")
+                        hint = input("")
                         if hint.upper() == "Y":
-                            print("\nI tell you that you are ___ all the time...")
+                            printLetters("\nI tell you that you are ___ all the time...\n")
                         else:
-                            print("\nOkay, try again!")
+                            printLetters("\nOkay, try again!\n")
                 counter += 1
             if counter == 5:
-                print("\n\nToo many incorrect attempts! Try again from the beginning. :)\n")
+                printLetters("\n\nToo many incorrect attempts! Try again from the beginning. :)\n", 0.1)
         else:
             automateDecrypt()
     else:
