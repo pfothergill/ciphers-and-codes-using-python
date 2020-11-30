@@ -1,4 +1,4 @@
-import ceasarShift as ceasar
+import CeasarShift as ceasar
 
 with open("output.txt", "w") as f:
     phrase = input("Phrase to decrypt: ")
